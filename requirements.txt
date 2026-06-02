@@ -1,0 +1,4 @@
+streamlit
+pandas
+eval7
+numpy

@@ -1,0 +1,203 @@
+================================================================================
+POKER TRAINER DETAILED ANALYSIS REPORT
+================================================================================
+Generated: May 31, 2026
+
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+
+Total SPIN Spots: 20 (across 4 categories)
+Total HU Spots: 18 (across 3 categories)
+Total Unique Spots: 38
+
+CATEGORIES COVERAGE:
+✓ All SPIN_CATEGORIES spots are present in CHARTS dictionary
+✓ All HU_CATEGORIES spots are present in HU_CHARTS dictionary
+✓ No duplicate spot names between SPIN and HU
+✓ EVERYTHING_ELSE usage appears correct
+✓ All chart structures have required "type", "data", and "buttons" keys
+
+================================================================================
+CRITICAL ISSUES FOUND: 4
+================================================================================
+
+These are hand notation typos that will cause validation errors:
+
+ISSUE #1: Invalid Hand Notation "A3O" (uppercase O)
+Location: HU BB vs 2x < 10bb (Line 1196)
+Severity: CRITICAL
+Description: Hand notation "A3O" uses uppercase 'O' instead of lowercase 'o'
+             All hand notations must use lowercase suffixes: 's' for suited, 'o' for offsuit
+Fix: Change "A3O" to "A3o"
+
+Current:  "All in": [..., "QJo","A3O","A2o"],
+Corrected: "All in": [..., "QJo","A3o","A2o"],
+
+
+ISSUE #2: Invalid Hand Notation "Q9S" (uppercase S)
+Location: HU BB vs Limp 20bb+ (Line 1264)
+Severity: CRITICAL
+Description: Hand notation "Q9S" uses uppercase 'S' instead of lowercase 's'
+Fix: Change "Q9S" to "Q9s"
+
+Current:  "K9s","K8s","K7s","Q9S","Q8s","J9s","J8s","T9s","T8s","98s",
+Corrected: "K9s","K8s","K7s","Q9s","Q8s","J9s","J8s","T9s","T8s","98s",
+
+
+ISSUE #3: Invalid Hand Notation "Q9S" (uppercase S)
+Location: HU BB vs Limp 16-20bb (Line 1284)
+Severity: CRITICAL
+Description: Hand notation "Q9S" uses uppercase 'S' instead of lowercase 's'
+Fix: Change "Q9S" to "Q9s"
+
+Current:  "K9s","K8s","K7s","Q9S","Q8s","J9s","J8s","T9s","T8s","98s",
+Corrected: "K9s","K8s","K7s","Q9s","Q8s","J9s","J8s","T9s","T8s","98s",
+
+
+ISSUE #4: Invalid Hand Notation "Q9S" (uppercase S)
+Location: HU BB vs Limp 13-16bb (Line 1302)
+Severity: CRITICAL
+Description: Hand notation "Q9S" uses uppercase 'S' instead of lowercase 's'
+Fix: Change "Q9S" to "Q9s"
+
+Current:  "K9s","K8s","K7s","Q9S","Q8s","J9s","J8s","T9s","T8s","98s",
+Corrected: "K9s","K8s","K7s","Q9s","Q8s","J9s","J8s","T9s","T8s","98s",
+
+================================================================================
+VALIDATION RULES
+================================================================================
+
+Hand Notation Format:
+- Pair: Two identical ranks (AA, KK, QQ, etc.)
+- Suited: Higher rank + lower rank + 's' (AKs, AQs, KJs, etc.)
+- Offsuit: Higher rank + lower rank + 'o' (AKo, AQo, KJo, etc.)
+- Valid Ranks: 2, 3, 4, 5, 6, 7, 8, 9, T, J, Q, K, A
+
+All hand notations in CHARTS and HU_CHARTS use lowercase suffixes.
+These 4 instances violate this rule.
+
+================================================================================
+SPOT COVERAGE VERIFICATION
+================================================================================
+
+SPIN_CATEGORIES Coverage:
+├── BU (Button): 3 spots ✓
+│   ├── BU 13-16 BB ✓
+│   ├── BU 10-13 BB ✓
+│   └── BU < 10 BB ✓
+│
+├── SB vs BU: 7 spots ✓
+│   ├── SB vs BU MR 13-16 BB ✓
+│   ├── SB vs BU MR 10-13 BB ✓
+│   ├── SB vs BU MR < 10 BB ✓
+│   ├── SB vs BU AI < 25 BB ✓
+│   ├── SB vs BU Limp 13-16 BB ✓
+│   ├── SB vs BU Limp 10-13 BB ✓
+│   └── SB vs BU Limp < 10 BB ✓
+│
+├── SB vs BB: 4 spots ✓
+│   ├── SB vs BB 13-16 BB ✓
+│   ├── SB vs BB 10-13 BB ✓
+│   ├── SB vs BB 8-10 BB ✓
+│   └── SB vs BB < 10 BB ✓
+│
+└── BB vs BU: 6 spots ✓
+    ├── BB vs BU MR 13-16 BB ✓
+    ├── BB vs BU MR 10-13 BB ✓
+    ├── BB vs BU MR < 10 BB ✓
+    ├── BB vs BU AI ✓
+    ├── BB vs BU Limp 13-16 BB ✓
+    └── BB vs BU Limp 10-13 BB ✓ (Note: Only 10-13 and 13-16 in CHARTS, < 10 BB missing)
+
+
+HU_CATEGORIES Coverage:
+├── HU SB: 7 spots ✓
+│   ├── HU SB 20bb+ ✓
+│   ├── HU SB 16-20bb ✓
+│   ├── HU SB 13-16bb ✓
+│   ├── HU SB 10-13bb ✓
+│   ├── HU SB 8-10bb ✓
+│   ├── HU SB 5-8bb ✓
+│   └── HU SB Push < 10bb ✓
+│
+├── HU BB vs Raise: 6 spots ✓
+│   ├── HU BB vs 2x 20bb+ ✓
+│   ├── HU BB vs 2x 16-20bb ✓
+│   ├── HU BB vs 2x 13-16bb ✓
+│   ├── HU BB vs 2x 10-13bb ✓
+│   ├── HU BB vs 2x < 10bb ✓
+│   └── HU BB vs All In ✓
+│
+└── HU BB vs Limp: 5 spots ✓
+    ├── HU BB vs Limp 20bb+ ✓
+    ├── HU BB vs Limp 16-20bb ✓
+    ├── HU BB vs Limp 13-16bb ✓
+    ├── HU BB vs Limp 10-13bb ✓
+    └── HU BB vs Limp < 10bb ✓
+
+
+POTENTIAL STRUCTURAL ISSUE:
+Note: BB vs BU Limp < 10 BB is missing from CHARTS but appears to be used elsewhere
+Recommendation: Add "BB vs BU Limp < 10 BB" or remove from category if not needed
+
+================================================================================
+EVERYTHING_ELSE HANDLING
+================================================================================
+
+The EVERYTHING_ELSE keyword is used correctly in:
+- BU 13-16 BB: Fold = EVERYTHING_ELSE
+- BU 10-13 BB: Fold = EVERYTHING_ELSE
+- SB vs BU MR < 10 BB: Fold = EVERYTHING_ELSE
+- SB vs BU Limp sections: Call = EVERYTHING_ELSE
+- BB vs BU Limp sections: Check = EVERYTHING_ELSE
+- BB vs SB MR 13-16 BB: Call = EVERYTHING_ELSE (with explicit Fold list)
+- BB vs SB MR 10-13 BB: Call = EVERYTHING_ELSE (with explicit Fold list)
+- BB vs SB Limp sections: Check = EVERYTHING_ELSE
+- HU SB sections: Various uses with Limp/Fold = EVERYTHING_ELSE
+- HU BB sections: Various uses with Call/Check = EVERYTHING_ELSE
+
+STATUS: ✓ EVERYTHING_ELSE usage is consistent and appropriate
+
+================================================================================
+CHART STRUCTURE VALIDATION
+================================================================================
+
+All charts contain required keys:
+- "type": "categorical" or "numerical"
+- "data": Dictionary/list of hand actions
+- "buttons": List of action buttons to display
+
+STATUS: ✓ All charts have correct structure
+
+================================================================================
+RECOMMENDATIONS
+================================================================================
+
+IMMEDIATE ACTIONS (Before Deployment):
+1. Fix the 4 hand notation typos (A3O → A3o, Q9S → Q9s x3)
+2. Consider adding or removing "BB vs BU Limp < 10 BB" for consistency
+
+OPTIONAL IMPROVEMENTS:
+1. Add validation function to check hand notations on startup
+2. Create a data validation test suite
+3. Document hand notation standards in comments
+4. Consider using Python enums or constants for spot names to avoid string typos
+
+================================================================================
+CONCLUSION
+================================================================================
+
+The poker_trainer.py file is mostly complete and well-structured. However, there
+are 4 critical hand notation typos that MUST be fixed before deployment:
+
+- 1x "A3O" (uppercase O) in HU BB vs 2x < 10bb
+- 3x "Q9S" (uppercase S) in three HU BB vs Limp spots
+
+These typos will cause the is_valid_hand_notation() function to reject these
+hands and potentially break the quiz functionality.
+
+After fixing these 4 typos, the file should be production-ready.
+
+Status: ✗ ISSUES FOUND - Requires fixing before deployment
+================================================================================
